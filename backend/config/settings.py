@@ -114,7 +114,6 @@ CELERY_TASK_TRACK_STARTED      = True
 CELERY_BEAT_SCHEDULER          = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # Ingestion schedule: every 10 seconds
-from celery.schedules import crontab  # noqa: E402
 CELERY_BEAT_SCHEDULE = {
     "fetch-and-store-ticks": {
         "task": "ingestion.fetch_and_store_ticks",

@@ -9,10 +9,8 @@ Critical paths:
   - ClickHouse failure returns 503, not 500
 """
 
-import json
 import pytest
-from unittest.mock import patch, MagicMock
-from datetime import datetime, timezone
+from unittest.mock import patch
 
 
 VALID_PARAMS = {

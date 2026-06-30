@@ -8,7 +8,7 @@ that the invalidation logic correctly identifies and deletes the right keys.
 
 import json
 import pytest
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import patch
 
 
 @pytest.mark.django_db

@@ -7,8 +7,7 @@ and 503 when any dependency is down.
 """
 
 import pytest
-from unittest.mock import patch, MagicMock
-from django.urls import reverse
+from unittest.mock import patch
 
 
 @pytest.mark.django_db
