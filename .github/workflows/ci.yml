@@ -51,9 +51,10 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: "6379"
           CLICKHOUSE_HOST: localhost   # tests mock ClickHouse calls
+          PYTHONPATH: .               # makes `backend` importable as a package
         run: |
           cd backend
-          pytest --tb=short -q
+          PYTHONPATH=.. pytest --tb=short -q
 
   frontend:
     name: Frontend — type-check + lint
@@ -64,12 +65,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
+          node-version: "24"
 
       - name: Install dependencies
-        run: cd frontend && npm ci
+        run: cd frontend && npm install
 
       - name: Type-check
         run: cd frontend && npm run type-check
