@@ -65,23 +65,19 @@ TEMPLATES = [{
 }]
 
 # ── Database (Django ORM — auth, sessions, beat schedule) ─────
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# Render/production: set DATABASE_URL env var → auto-configures Postgres.
+# Local dev: falls back to SQLite (no env var needed).
+_db_url = config("DATABASE_URL", default=None)
+if _db_url:
+    import dj_database_url
+    DATABASES = {"default": dj_database_url.parse(_db_url, conn_max_age=600)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-# In production swap to Postgres:
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": config("POSTGRES_DB"),
-#         "USER": config("POSTGRES_USER"),
-#         "PASSWORD": config("POSTGRES_PASSWORD"),
-#         "HOST": config("POSTGRES_HOST", default="localhost"),
-#         "PORT": config("POSTGRES_PORT", default=5432, cast=int),
-#     }
-# }
 
 # ── ClickHouse ────────────────────────────────────────────────
 CLICKHOUSE_HOST     = config("CLICKHOUSE_HOST", default="localhost")
